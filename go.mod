@@ -1,4 +1,4 @@
-module github.com/cli/oauth
+module github.com/siderolabs/oauth
 
 go 1.13
 

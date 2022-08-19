@@ -1,6 +1,7 @@
 package device
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -22,7 +23,7 @@ func Example() {
 	fmt.Printf("Copy code: %s\n", code.UserCode)
 	fmt.Printf("then open: %s\n", code.VerificationURI)
 
-	accessToken, err := PollToken(httpClient, "https://github.com/login/oauth/access_token", clientID, code)
+	accessToken, err := PollToken(context.Background(), httpClient, "https://github.com/login/oauth/access_token", clientID, code)
 	if err != nil {
 		panic(err)
 	}

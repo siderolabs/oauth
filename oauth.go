@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/cli/oauth/api"
-	"github.com/cli/oauth/device"
+	"github.com/siderolabs/oauth/api"
+	"github.com/siderolabs/oauth/device"
 )
 
 type httpClient interface {

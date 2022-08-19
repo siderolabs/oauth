@@ -2,14 +2,15 @@ package oauth
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 
 	"github.com/cli/browser"
-	"github.com/cli/oauth/api"
-	"github.com/cli/oauth/device"
+	"github.com/siderolabs/oauth/api"
+	"github.com/siderolabs/oauth/device"
 )
 
 // DeviceFlow captures the full OAuth Device flow, including prompting the user to copy a one-time
@@ -58,7 +59,7 @@ func (oa *Flow) DeviceFlow() (*api.AccessToken, error) {
 		return nil, fmt.Errorf("error opening the web browser: %w", err)
 	}
 
-	return device.PollToken(httpClient, host.TokenURL, oa.ClientID, code)
+	return device.PollToken(context.Background(), httpClient, host.TokenURL, oa.ClientID, code)
 }
 
 func waitForEnter(r io.Reader) error {

@@ -19,7 +19,7 @@ To transparently enable OAuth authorization on _any GitHub host_ (e.g. GHES inst
 - [manual OAuth Device flow](./device/examples_test.go)
 - [manual OAuth web application flow](./webapp/examples_test.go)
 
-Applications that need more control over the user experience around authentication should directly interface with `github.com/cli/oauth/device` and `github.com/cli/oauth/webapp` packages.
+Applications that need more control over the user experience around authentication should directly interface with `github.com/siderolabs/oauth/device` and `github.com/siderolabs/oauth/webapp` packages.
 
 In theory, these packages would enable authorization on any OAuth-enabled host. In practice, however, this was only tested for authorizing with GitHub.
 

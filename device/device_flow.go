@@ -13,6 +13,7 @@
 package device
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/http"
@@ -21,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cli/oauth/api"
+	"github.com/siderolabs/oauth/api"
 )
 
 var (
@@ -98,7 +99,7 @@ func RequestCode(c httpClient, uri string, clientID string, scopes []string) (*C
 const grantType = "urn:ietf:params:oauth:grant-type:device_code"
 
 // PollToken polls the server at pollURL until an access token is granted or denied.
-func PollToken(c httpClient, pollURL string, clientID string, code *CodeResponse) (*api.AccessToken, error) {
+func PollToken(ctx context.Context, c httpClient, pollURL string, clientID string, code *CodeResponse) (*api.AccessToken, error) {
 	timeNow := code.timeNow
 	if timeNow == nil {
 		timeNow = time.Now
@@ -112,6 +113,12 @@ func PollToken(c httpClient, pollURL string, clientID string, code *CodeResponse
 	expiresAt := timeNow().Add(time.Duration(code.ExpiresIn) * time.Second)
 
 	for {
+		select {
+		case <-ctx.Done():
+			return nil, fmt.Errorf("aborted polling")
+		default:
+		}
+
 		timeSleep(checkInterval)
 
 		resp, err := api.PostForm(c, pollURL, url.Values{

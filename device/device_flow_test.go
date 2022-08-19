@@ -2,6 +2,7 @@ package device
 
 import (
 	"bytes"
+	"context"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -9,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cli/oauth/api"
+	"github.com/siderolabs/oauth/api"
 )
 
 type apiStub struct {
@@ -371,7 +372,7 @@ func TestPollToken(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			totalSlept = 0
-			got, err := PollToken(&tt.args.http, tt.args.url, tt.args.clientID, tt.args.code)
+			got, err := PollToken(context.Background(), &tt.args.http, tt.args.url, tt.args.clientID, tt.args.code)
 			if (err != nil) != (tt.wantErr != "") {
 				t.Errorf("PollToken() error = %v, wantErr %v", err, tt.wantErr)
 				return
